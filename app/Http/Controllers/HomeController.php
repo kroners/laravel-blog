@@ -14,7 +14,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
     /**
@@ -24,7 +24,8 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = Post::findRandomTen();
+        $posts = Post::where('active', 1)->take(10)->get();
+
         return view('home',  ['posts' => $posts]);
     }
 }

@@ -5,10 +5,10 @@ namespace Models\App;
 use App\Models\Post;
 use Illuminate\Database\Eloquent\Model;
 
-class Comment extends Model
+class Category extends Model
 {
-    public function post()
+    public function posts()
     {
-        return $this->belongsTo(Post);
+        return $this->hasMany(Post);
     }
 }
