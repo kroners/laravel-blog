@@ -16,3 +16,13 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::get('/', 'HomeController@index');
+
+Auth::routes();
+
+Route::get('/home', 'ProfileController@index')->name('home');
+
+Route::resource('users', 'UserController');
+Route::resource('posts', 'PostController');
+Route::resource('comments', 'CommentController');

@@ -10,13 +10,13 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Route::group([
+//     'middleware' => 'guest',
+// ], function () {
+//     Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail');
+//     Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+// });
 
-Route::get('/', 'HomeController@index');
+Route::get('password/reset/{token}', 'HomeController@index')->name('password.reset');
 
-Auth::routes();
-
-Route::get('/home', 'ProfileController@index')->name('home');
-
-Route::resource('users', 'UserController');
-Route::resource('posts', 'PostController');
-Route::resource('comments', 'CommentController');
+Route::get('/{any}',  'HomeController@index')->where('any', '.*');
