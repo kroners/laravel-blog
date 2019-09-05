@@ -26,6 +26,6 @@ class HomeController extends Controller
     {
         $posts = Post::where('active', 1)->take(10)->get();
 
-        return view('home',  ['posts' => $posts]);
+        return view('app', ['posts' => $posts]);
     }
 }
