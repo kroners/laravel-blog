@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -24,8 +25,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $posts = Post::where('active', 1)->take(10)->get();
-
-        return view('app', ['posts' => $posts]);
+        Log::info('index home controller');
+        return view('app');
     }
 }

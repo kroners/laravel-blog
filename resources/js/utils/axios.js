@@ -5,7 +5,7 @@ import axios from "axios";
 Vue.use(axios);
 
 // baseUrl is a global variable, we get it through Laravel
-const baseUrl = "/api/";
+const baseUrl = "/api";
 console.log(baseUrl);
 
 axios.defaults.baseURL = baseUrl;

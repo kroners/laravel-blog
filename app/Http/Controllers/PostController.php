@@ -38,4 +38,12 @@ class PostController extends Controller
 
     public function update()
     { }
+
+    public function showTopNewPosts(Request $request)
+    {
+        $top_posts = Post::where('active', true)->take(10)->get();
+        $new_posts = Post::where('active', true)->take(10)->get();
+
+        return response()->json(['top_posts' => $top_posts, 'new_posts' => $new_posts]);
+    }
 }

@@ -1,67 +1,44 @@
 <template>
-  <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
-    <div class="container">
-      <router-link to="/" class="navbar-brand">{{ appName }}</router-link>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- Left Side Of Navbar -->
-        <ul class="navbar-nav mr-auto"></ul>
-
-        <!-- Right Side Of Navbar -->
-        <ul class="navbar-nav ml-auto">
-          <!-- Authentication Links -->
-          <li class="nav-item">
-            <router-link to="/login" class="nav-link">Login</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/register" class="nav-link">Register</router-link>
-          </li>
-          <li class="nav-item dropdown">
-            <a
-              id="navbarDropdown"
-              class="nav-link dropdown-toggle"
-              href="#"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-              v-pre
-            >
-              <span class="caret"></span>
-            </a>
-
-            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-              <router-link class="dropdown-item" to="/logout">Logout</router-link>
-
-              <form id="logout-form" method="POST" style="display: none;"></form>
-            </div>
-          </li>
-        </ul>
+  <div>
+    <div class="container header_body">
+      <div class="row">
+        <h1>Encuentra tu plato</h1>
       </div>
     </div>
-  </nav>
+    <div class="new_posts">
+      <PostList list="{app.new_posts}"></PostList>
+    </div>
+    <div class="top_rated">
+      <PostList list="{app.top_posts}"></PostList>
+    </div>
+  </div>
 </template>
 
 <script>
+import PostList from "../components/PostList.vue";
+
 export default {
+  data() {
+    return {
+      user: {},
+      new_posts: {},
+      top_posts: {}
+    };
+  },
+  components: { PostList },
   mounted() {
+    console.log("mounted homevue");
     var app = this;
-    console.log(app);
     axios
-      .get("/api/")
+      .get(axios.defaults.baseUrl + "/welcome/posts")
       .then(function(res) {
         console.log(res);
-        app.posts = res.data;
+        top_posts = res.data.top_posts;
+        new_posts = res.data.new_posts;
+        console.log(app);
+        if (res.data.user) {
+          this.user = res.data.user;
+        }
       })
       .catch(function(err) {
         console.log(err);

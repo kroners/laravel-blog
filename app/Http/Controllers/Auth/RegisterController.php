@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\User;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class RegisterController extends Controller
 {
@@ -21,14 +23,14 @@ class RegisterController extends Controller
     |
     */
 
-    use RegistersUsers;
+    // use RegistersUsers;
 
     /**
      * Where to redirect users after registration.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    // protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -37,6 +39,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
+        Log::info('construct register controller');
         $this->middleware('guest');
     }
 
@@ -48,6 +51,7 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        Log::info("regcon validator");
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -58,15 +62,22 @@ class RegisterController extends Controller
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
-     * @return \App\User
+     * @param  Request $request
      */
-    protected function create(array $data)
+    protected function create(Request $request)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+        $this->validator($request->params)->validate();
+
+        $user = User::create([
+            'role_id' => 1,
+            'username' => $request->params['username'],
+            'name' => $request->params['name'],
+            'email' => $request->params['email'],
+            'password' => bcrypt($request->params['password']),
         ]);
+
+        $this->guard()->login($user);
+
+        return response()->json(['status' => 'success', 'user' => $user], 200);
     }
 }

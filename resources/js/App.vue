@@ -1,20 +1,19 @@
 <template>
   <div class="app">
+    <Nav></Nav>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import Nav from "./components/NavComponent.vue";
 export default {
-  data: function() {
-    return {
-      posts: []
-    };
+  components: {
+    Nav
   },
   mounted() {
     console.log("mounted");
-  },
-  methods: {}
+  }
 };
 </script>
 
